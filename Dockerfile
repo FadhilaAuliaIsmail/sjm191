@@ -14,4 +14,4 @@ COPY . .
 RUN composer install --optimize-autoloader --no-dev
 RUN npm install && npm run build
 
-CMD sh -c "echo '--- DEBUG ENV ---'; echo DB_HOST=$DB_HOST; echo DB_PORT=$DB_PORT; echo DB_DATABASE=$DB_DATABASE; echo DB_USERNAME=$DB_USERNAME; echo '--- END DEBUG ---'; php artisan config:clear && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
+CMD sh -c "echo '--- DEBUG ENV ---'; echo DB_HOST=$DB_HOST; echo DB_PORT=$DB_PORT; echo DB_DATABASE=$DB_DATABASE; echo DB_USERNAME=$DB_USERNAME; echo '--- END DEBUG ---'; php artisan config:clear && php artisan migrate:fresh --force && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
