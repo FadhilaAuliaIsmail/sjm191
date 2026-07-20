@@ -107,7 +107,7 @@ function submitTransaksi() {
             <h2 class="text-xl font-semibold text-gray-800">Kasir</h2>
         </template>
 
-        <div class="flex gap-5 h-full p-8">
+        <div class="flex flex-col lg:flex-row gap-5 lg:h-full p-4 lg:p-8">
             <!-- Grid Produk -->
             <div class="flex-1 min-w-0">
                 <div class="relative mb-4">
@@ -124,7 +124,7 @@ function submitTransaksi() {
                 </div>
 
                 <div
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
+                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4"
                 >
                     <button
                         v-for="p in filteredProduk"
@@ -192,7 +192,7 @@ function submitTransaksi() {
 
             <!-- Keranjang -->
             <div
-                class="w-96 shrink-0 bg-white rounded-2xl shadow-sm border border-[#EFE7DA] flex flex-col p-5"
+                class="w-full lg:w-96 lg:shrink-0 bg-white rounded-2xl shadow-sm border border-[#EFE7DA] flex flex-col p-4 lg:p-5"
             >
                 <div class="flex items-center gap-2 mb-4">
                     <ShoppingCart class="w-4.5 h-4.5" style="color: #a31d22" />
