@@ -16,7 +16,7 @@ import {
     Wallet,
     X,
 } from "lucide-vue-next";
-import { computed, ref } from "vue";
+import { computed, onMounted, onUnmounted, ref } from "vue";
 
 const page = usePage();
 const user = page.props.auth.user;
@@ -27,6 +27,7 @@ const isKasir = user.peran === "kasir";
 const stokMenipisCount = computed(() => page.props.stokMenipisCount ?? 0);
 const stokMenipisList = computed(() => page.props.stokMenipisList ?? []);
 const showNotifDropdown = ref(false);
+const notifRef = ref(null);
 const sidebarOpen = ref(false);
 
 function logout() {
@@ -36,6 +37,21 @@ function logout() {
 function closeSidebar() {
     sidebarOpen.value = false;
 }
+
+// Tutup dropdown notifikasi saat klik di luar area-nya
+function handleClickOutside(event) {
+    if (notifRef.value && !notifRef.value.contains(event.target)) {
+        showNotifDropdown.value = false;
+    }
+}
+
+onMounted(() => {
+    document.addEventListener("click", handleClickOutside);
+});
+
+onUnmounted(() => {
+    document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <template>
@@ -325,7 +341,7 @@ function closeSidebar() {
 
                 <!-- Notifikasi + Profil -->
                 <div class="flex items-center gap-2 md:gap-4 shrink-0">
-                    <div v-if="isPemilik" class="relative">
+                    <div v-if="isPemilik" ref="notifRef" class="relative">
                         <button
                             type="button"
                             @click="showNotifDropdown = !showNotifDropdown"
