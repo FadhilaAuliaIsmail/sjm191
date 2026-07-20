@@ -158,15 +158,17 @@ const quickLinks = [
     <AuthenticatedLayout>
         <template #header>
             <h2
-                class="text-xl font-semibold leading-tight"
+                class="text-lg sm:text-xl font-semibold leading-tight"
                 style="font-family: 'Fraunces', serif; color: #5c4a3f"
             >
                 Dashboard Pemilik
             </h2>
         </template>
 
-        <div class="py-8">
-            <div class="mx-auto max-w-7xl space-y-6 px-4 sm:px-6 lg:px-8">
+        <div class="py-6 sm:py-8">
+            <div
+                class="mx-auto max-w-7xl space-y-5 sm:space-y-6 px-3 sm:px-6 lg:px-8"
+            >
                 <!-- Stat Cards -->
                 <div
                     class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4"
@@ -176,12 +178,12 @@ const quickLinks = [
                         :key="card.key"
                         class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100"
                     >
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between gap-2">
                             <p class="text-sm font-medium text-gray-500">
                                 {{ card.label }}
                             </p>
                             <div
-                                class="flex h-8 w-8 items-center justify-center rounded-lg"
+                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                                 style="background: #fdf2f2"
                             >
                                 <component
@@ -191,7 +193,9 @@ const quickLinks = [
                                 />
                             </div>
                         </div>
-                        <p class="mt-3 text-2xl font-bold text-gray-900">
+                        <p
+                            class="mt-3 text-xl sm:text-2xl font-bold text-gray-900 break-words"
+                        >
                             {{
                                 card.format
                                     ? formatRupiah(stats[card.key])
@@ -203,18 +207,20 @@ const quickLinks = [
                     <div
                         class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100"
                     >
-                        <div class="flex items-center justify-between">
+                        <div class="flex items-center justify-between gap-2">
                             <p class="text-sm font-medium text-gray-500">
                                 Produk &amp; Mitra
                             </p>
                             <div
-                                class="flex h-8 w-8 items-center justify-center rounded-lg"
+                                class="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
                                 style="background: #fdf2f2"
                             >
                                 <Boxes class="h-4 w-4" style="color: #a31d22" />
                             </div>
                         </div>
-                        <p class="mt-3 text-2xl font-bold text-gray-900">
+                        <p
+                            class="mt-3 text-xl sm:text-2xl font-bold text-gray-900"
+                        >
                             {{ stats.jumlahProduk }}
                             <span class="text-sm font-normal text-gray-400"
                                 >produk</span
@@ -229,7 +235,7 @@ const quickLinks = [
                 <!-- Grafik -->
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
                     <div
-                        class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 lg:col-span-2"
+                        class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm ring-1 ring-gray-100 lg:col-span-2"
                     >
                         <h3
                             class="mb-4 font-semibold"
@@ -240,13 +246,13 @@ const quickLinks = [
                         >
                             Pendapatan 7 Hari Terakhir
                         </h3>
-                        <div class="h-72">
+                        <div class="h-56 sm:h-72">
                             <canvas ref="chartPendapatanRef"></canvas>
                         </div>
                     </div>
 
                     <div
-                        class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100"
+                        class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm ring-1 ring-gray-100"
                     >
                         <h3
                             class="mb-4 font-semibold"
@@ -257,7 +263,7 @@ const quickLinks = [
                         >
                             Produk Terlaris
                         </h3>
-                        <div class="h-72">
+                        <div class="h-56 sm:h-72">
                             <canvas
                                 v-if="produkTerlaris.length > 0"
                                 ref="chartTerlarisRef"
@@ -286,7 +292,7 @@ const quickLinks = [
                 <!-- Stok Menipis & Quick Links -->
                 <div class="grid grid-cols-1 gap-4 lg:grid-cols-3">
                     <div
-                        class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100 lg:col-span-2"
+                        class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm ring-1 ring-gray-100 lg:col-span-2"
                     >
                         <h3
                             class="mb-4 flex items-center gap-2 font-semibold"
@@ -296,7 +302,7 @@ const quickLinks = [
                             "
                         >
                             <AlertTriangle
-                                class="h-4 w-4"
+                                class="h-4 w-4 shrink-0"
                                 style="color: #e3a93b"
                             />
                             Stok Menipis
@@ -308,7 +314,7 @@ const quickLinks = [
                             <div
                                 v-for="produk in stokMenipis"
                                 :key="produk.id"
-                                class="flex items-center justify-between py-3"
+                                class="flex flex-wrap items-center justify-between gap-2 py-3"
                             >
                                 <span class="text-sm text-gray-700">{{
                                     produk.nama_produk
@@ -331,7 +337,7 @@ const quickLinks = [
                     </div>
 
                     <div
-                        class="rounded-2xl bg-white p-5 shadow-sm ring-1 ring-gray-100"
+                        class="rounded-2xl bg-white p-4 sm:p-5 shadow-sm ring-1 ring-gray-100"
                     >
                         <h3
                             class="mb-4 flex items-center gap-2 font-semibold"
@@ -348,7 +354,7 @@ const quickLinks = [
                                 v-for="link in quickLinks"
                                 :key="link.route"
                                 :href="route(link.route)"
-                                class="flex flex-col items-center gap-1.5 rounded-xl px-3 py-3 text-center text-sm font-medium transition-colors"
+                                class="flex flex-col items-center gap-1.5 rounded-xl px-2 sm:px-3 py-3 text-center text-xs sm:text-sm font-medium transition-colors"
                                 style="background: #fdf2f2; color: #a31d22"
                                 @mouseenter="
                                     $event.currentTarget.style.background =

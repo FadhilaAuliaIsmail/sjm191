@@ -63,12 +63,14 @@ function formatTanggalSekarang(tgl) {
     <Head title="Dashboard" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2
+                class="text-lg sm:text-xl font-semibold leading-tight text-gray-800"
+            >
                 Dashboard
             </h2>
         </template>
 
-        <div class="space-y-6">
+        <div class="space-y-5 sm:space-y-6">
             <!-- Stat Cards -->
             <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
                 <div
@@ -78,7 +80,7 @@ function formatTanggalSekarang(tgl) {
                         {{ formatTanggalSekarang(waktuSekarang) }}
                     </p>
                     <p
-                        class="mt-2 font-mono text-2xl font-bold tabular-nums text-gray-900"
+                        class="mt-2 font-mono text-xl sm:text-2xl font-bold tabular-nums text-gray-900"
                     >
                         {{ formatJamSekarang(waktuSekarang) }}
                     </p>
@@ -89,7 +91,9 @@ function formatTanggalSekarang(tgl) {
                     <p class="text-sm font-medium text-gray-500">
                         Pendapatan Hari Ini
                     </p>
-                    <p class="mt-2 text-2xl font-bold text-gray-900">
+                    <p
+                        class="mt-2 text-xl sm:text-2xl font-bold text-gray-900 break-words"
+                    >
                         {{ formatRupiah(pendapatanHariIni) }}
                     </p>
                 </div>
@@ -99,7 +103,7 @@ function formatTanggalSekarang(tgl) {
                     <p class="text-sm font-medium text-gray-500">
                         Transaksi Hari Ini
                     </p>
-                    <p class="mt-2 text-2xl font-bold text-gray-900">
+                    <p class="mt-2 text-xl sm:text-2xl font-bold text-gray-900">
                         {{ transaksiHariIni }}
                     </p>
                 </div>
@@ -125,46 +129,91 @@ function formatTanggalSekarang(tgl) {
                         Transaksi Terakhir Hari Ini
                     </h3>
                 </div>
-                <table class="w-full text-sm">
-                    <thead
-                        class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500"
+
+                <!-- Kartu: mobile & tablet kecil -->
+                <div class="divide-y divide-gray-100 sm:hidden">
+                    <div
+                        v-for="t in transaksiTerakhir"
+                        :key="t.id"
+                        class="px-5 py-3"
                     >
-                        <tr>
-                            <th class="px-5 py-3">Jam</th>
-                            <th class="px-5 py-3">Total</th>
-                            <th class="px-5 py-3">Bayar</th>
-                            <th class="px-5 py-3">Kembalian</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        <tr
-                            v-for="t in transaksiTerakhir"
-                            :key="t.id"
-                            class="hover:bg-gray-50"
-                        >
-                            <td class="px-5 py-3 text-gray-600">
+                        <div class="flex items-center justify-between gap-3">
+                            <p class="text-xs text-gray-500">
                                 {{ formatJam(t.tanggal_transaksi) }}
-                            </td>
-                            <td class="px-5 py-3 font-medium text-gray-800">
+                            </p>
+                            <p class="font-medium text-gray-800">
                                 {{ formatRupiah(t.total_harga) }}
-                            </td>
-                            <td class="px-5 py-3 text-gray-600">
-                                {{ formatRupiah(t.bayar) }}
-                            </td>
-                            <td class="px-5 py-3 text-gray-600">
-                                {{ formatRupiah(t.kembalian) }}
-                            </td>
-                        </tr>
-                        <tr v-if="transaksiTerakhir.length === 0">
-                            <td
-                                colspan="4"
-                                class="px-5 py-10 text-center text-sm text-gray-400"
+                            </p>
+                        </div>
+                        <div
+                            class="mt-1 flex justify-between text-xs text-gray-500"
+                        >
+                            <span>Bayar: {{ formatRupiah(t.bayar) }}</span>
+                            <span
+                                >Kembalian:
+                                {{ formatRupiah(t.kembalian) }}</span
                             >
-                                Belum ada transaksi hari ini.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                        </div>
+                    </div>
+                    <div
+                        v-if="transaksiTerakhir.length === 0"
+                        class="px-5 py-10 text-center text-sm text-gray-400"
+                    >
+                        Belum ada transaksi hari ini.
+                    </div>
+                </div>
+
+                <!-- Tabel: tablet besar & desktop -->
+                <div class="hidden overflow-x-auto sm:block">
+                    <table class="w-full text-sm">
+                        <thead
+                            class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500"
+                        >
+                            <tr>
+                                <th class="px-5 py-3">Jam</th>
+                                <th class="px-5 py-3">Total</th>
+                                <th class="px-5 py-3">Bayar</th>
+                                <th class="px-5 py-3">Kembalian</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                            <tr
+                                v-for="t in transaksiTerakhir"
+                                :key="t.id"
+                                class="hover:bg-gray-50"
+                            >
+                                <td
+                                    class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                >
+                                    {{ formatJam(t.tanggal_transaksi) }}
+                                </td>
+                                <td
+                                    class="px-5 py-3 font-medium text-gray-800 whitespace-nowrap"
+                                >
+                                    {{ formatRupiah(t.total_harga) }}
+                                </td>
+                                <td
+                                    class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                >
+                                    {{ formatRupiah(t.bayar) }}
+                                </td>
+                                <td
+                                    class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                >
+                                    {{ formatRupiah(t.kembalian) }}
+                                </td>
+                            </tr>
+                            <tr v-if="transaksiTerakhir.length === 0">
+                                <td
+                                    colspan="4"
+                                    class="px-5 py-10 text-center text-sm text-gray-400"
+                                >
+                                    Belum ada transaksi hari ini.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </AuthenticatedLayout>
