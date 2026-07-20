@@ -245,7 +245,7 @@ function doDelete() {
         <div class="flex justify-end mb-4">
             <button
                 @click="openTambah"
-                class="flex items-center gap-2 bg-[#A31D22] hover:bg-[#8A171B] text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition"
+                class="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#A31D22] hover:bg-[#8A171B] text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition"
             >
                 <svg
                     class="w-4 h-4"
@@ -324,102 +324,97 @@ function doDelete() {
         </div>
 
         <!-- List -->
-        <div v-else class="space-y-3">
+        <div
+            v-else
+            class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
             <div
                 v-for="p in filtered"
                 :key="p.id"
-                class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition group flex"
+                class="bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 hover:shadow-md transition group flex flex-col"
             >
-                <!-- Foto — klik untuk detail -->
-                <div
-                    class="relative w-28 h-28 sm:w-36 sm:h-36 self-start shrink-0 bg-gray-50 overflow-hidden cursor-pointer rounded-xl"
-                    @click="openDetail(p)"
-                >
-                    <img
-                        v-if="p.foto"
-                        :src="`/storage/${p.foto}`"
-                        :alt="p.nama_produk"
-                        class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
-                    />
+                <!-- Baris atas: Foto + Nama + Harga -->
+                <div class="flex items-start gap-3 p-3">
                     <div
-                        v-else
-                        class="w-full h-full flex items-center justify-center min-h-[112px]"
+                        class="relative w-16 h-16 shrink-0 bg-gray-50 overflow-hidden cursor-pointer rounded-xl"
+                        @click="openDetail(p)"
                     >
-                        <svg
-                            class="w-10 h-10 text-gray-200"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
+                        <img
+                            v-if="p.foto"
+                            :src="`/storage/${p.foto}`"
+                            :alt="p.nama_produk"
+                            class="w-full h-full object-cover group-hover:scale-105 transition duration-300"
+                        />
+                        <div
+                            v-else
+                            class="w-full h-full flex items-center justify-center"
                         >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="1.5"
-                                d="M4 16l4.586-4.586a2 2 0 0 1 2.828 0L16 16m-2-2 1.586-1.586a2 2 0 0 1 2.828 0L20 14m-6-6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"
-                            />
-                        </svg>
+                            <svg
+                                class="w-7 h-7 text-gray-200"
+                                fill="none"
+                                stroke="currentColor"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="1.5"
+                                    d="M4 16l4.586-4.586a2 2 0 0 1 2.828 0L16 16m-2-2 1.586-1.586a2 2 0 0 1 2.828 0L20 14m-6-6h.01M6 20h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2z"
+                                />
+                            </svg>
+                        </div>
                     </div>
-                    <span
-                        :class="stokBadge(p.stok).cls"
-                        class="absolute top-2 left-2 text-[10px] font-semibold px-2 py-0.5 rounded-full"
-                    >
-                        {{ stokBadge(p.stok).text }}
-                    </span>
-                </div>
 
-                <!-- Info + Deskripsi di samping -->
-                <div
-                    class="flex-1 p-4 flex flex-col sm:flex-row sm:items-center gap-3 min-w-0"
-                >
                     <div class="flex-1 min-w-0">
-                        <p
-                            class="font-semibold text-gray-800 text-sm truncate cursor-pointer hover:text-[#A31D22]"
-                            @click="openDetail(p)"
-                        >
-                            {{ p.nama_produk }}
-                        </p>
+                        <div class="flex items-start justify-between gap-2">
+                            <p
+                                class="font-semibold text-gray-800 text-sm truncate cursor-pointer hover:text-[#A31D22]"
+                                @click="openDetail(p)"
+                            >
+                                {{ p.nama_produk }}
+                            </p>
+                            <span
+                                :class="stokBadge(p.stok).cls"
+                                class="shrink-0 text-[10px] font-semibold px-2 py-0.5 rounded-full whitespace-nowrap"
+                            >
+                                {{ stokBadge(p.stok).text }}
+                            </span>
+                        </div>
                         <p class="text-[#A31D22] font-bold text-sm mt-0.5">
                             {{ formatRupiah(p.harga) }}
                         </p>
-                        <span class="text-xs text-gray-400">
-                            <p>Stok : {{ p.stok }}</p>
-                            <p>Satuan : {{ p.satuan }}</p>
-                        </span>
+                        <p class="text-xs text-gray-400 mt-0.5">
+                            Stok: {{ p.stok }} · {{ p.satuan }}
+                        </p>
                     </div>
+                </div>
 
-                    <div
-                        class="flex-1 min-w-0 sm:border-l sm:border-gray-100 sm:pl-4"
+                <!-- Deskripsi, cuma tampil kalau ada -->
+                <div v-if="p.deskripsi" class="px-3 pb-2">
+                    <p class="text-xs text-gray-500 line-clamp-2">
+                        {{ p.deskripsi }}
+                    </p>
+                </div>
+
+                <!-- Tombol, full width sejajar -->
+                <div
+                    class="flex gap-2 p-3 pt-2 mt-auto border-t border-gray-50"
+                >
+                    <button
+                        @click="openEdit(p)"
+                        class="flex-1 text-center text-xs font-semibold text-[#A31D22] border border-[#F0C6C6] rounded-lg py-2 hover:bg-[#FDF2F2] transition"
                     >
-                        <p class="text-xs text-gray-400 mb-0.5">Deskripsi</p>
-                        <p
-                            v-if="p.deskripsi"
-                            class="text-sm text-gray-600 line-clamp-2"
-                        >
-                            {{ p.deskripsi }}
-                        </p>
-                        <p v-else class="text-sm text-gray-300 italic">
-                            Tidak ada deskripsi
-                        </p>
-                    </div>
-
-                    <div class="flex gap-2 shrink-0">
-                        <button
-                            @click="openEdit(p)"
-                            class="text-center text-xs font-semibold text-[#A31D22] border border-[#F0C6C6] rounded-lg px-4 py-1.5 hover:bg-[#FDF2F2] transition"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            @click="confirmDelete(p)"
-                            class="text-center text-xs font-semibold text-red-500 border border-red-200 rounded-lg px-4 py-1.5 hover:bg-red-50 transition"
-                        >
-                            Hapus
-                        </button>
-                    </div>
+                        Edit
+                    </button>
+                    <button
+                        @click="confirmDelete(p)"
+                        class="flex-1 text-center text-xs font-semibold text-red-500 border border-red-200 rounded-lg py-2 hover:bg-red-50 transition"
+                    >
+                        Hapus
+                    </button>
                 </div>
             </div>
         </div>
-
         <!-- ══ MODAL TAMBAH ══════════════════════════════════════ -->
         <Teleport to="body">
             <div
