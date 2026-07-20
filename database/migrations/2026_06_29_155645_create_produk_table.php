@@ -10,9 +10,7 @@ return new class extends Migration
     {
         Schema::create('produk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')
-                ->constrained()
-                ->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('pengguna')->cascadeOnDelete();
             $table->string('nama_produk');
             $table->decimal('harga', 12, 2);
             $table->integer('stok')->default(0);
