@@ -90,14 +90,14 @@ function executeDelete() {
     <AuthenticatedLayout>
         <template #header>
             <h2
-                class="text-xl font-semibold leading-tight"
+                class="text-lg md:text-xl font-semibold leading-tight"
                 style="font-family: 'Fraunces', serif; color: #5c4a3f"
             >
                 Data Mitra / Cabang
             </h2>
         </template>
 
-        <div class="py-8">
+        <div class="py-4 md:py-8">
             <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
                 <!-- Toolbar -->
                 <div
@@ -111,15 +111,57 @@ function executeDelete() {
                     />
                     <button
                         @click="openCreateModal"
-                        class="inline-flex items-center justify-center rounded-xl bg-[#A31D22] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#7C1519]"
+                        class="w-full sm:w-auto inline-flex items-center justify-center rounded-xl bg-[#A31D22] px-4 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-[#7C1519]"
                     >
                         + Tambah Mitra
                     </button>
                 </div>
 
-                <!-- Tabel -->
+                <!-- Versi Card (mobile & tablet) -->
+                <div class="lg:hidden space-y-3">
+                    <div
+                        v-for="item in dataFiltered"
+                        :key="item.id"
+                        class="rounded-2xl bg-white shadow-sm ring-1 ring-gray-100 p-4"
+                    >
+                        <p class="font-semibold text-gray-800 text-sm">
+                            {{ item.cabang }}
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            {{ item.alamat }}
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            {{ item.no_telp }}
+                        </p>
+                        <div
+                            class="flex gap-2 mt-3 pt-3 border-t border-gray-100"
+                        >
+                            <button
+                                @click="openEditModal(item)"
+                                class="flex-1 text-center text-xs font-semibold text-[#A31D22] border border-[#F0C6C6] rounded-lg py-2 hover:bg-[#FDF2F2] transition"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                @click="confirmDelete(item)"
+                                class="flex-1 text-center text-xs font-semibold text-red-500 border border-red-200 rounded-lg py-2 hover:bg-red-50 transition"
+                            >
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        v-if="dataFiltered.length === 0"
+                        class="rounded-2xl bg-white shadow-sm ring-1 ring-gray-100 py-10 text-center text-sm text-gray-400"
+                    >
+                        Belum ada data mitra.
+                    </div>
+                </div>
+
+                <!-- Versi Tabel (desktop) -->
                 <div
-                    class="overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-100"
+                    class="hidden lg:block overflow-hidden rounded-2xl bg-white shadow-sm ring-1 ring-gray-100"
                 >
                     <table class="w-full text-sm">
                         <thead
@@ -182,7 +224,9 @@ function executeDelete() {
             class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
             @click.self="closeModal"
         >
-            <div class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl">
+            <div
+                class="w-full max-w-md rounded-2xl bg-white p-5 md:p-6 shadow-xl max-h-[90vh] overflow-y-auto"
+            >
                 <h3 class="mb-4 text-lg font-semibold text-gray-800">
                     {{ isEditing ? "Edit Mitra" : "Tambah Mitra" }}
                 </h3>
@@ -245,18 +289,20 @@ function executeDelete() {
                         </p>
                     </div>
 
-                    <div class="flex justify-end gap-2 pt-2">
+                    <div
+                        class="flex flex-col-reverse sm:flex-row sm:justify-end gap-2 pt-2"
+                    >
                         <button
                             type="button"
                             @click="closeModal"
-                            class="rounded-xl px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+                            class="rounded-xl px-4 py-2.5 sm:py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
                         >
                             Batal
                         </button>
                         <button
                             type="submit"
                             :disabled="form.processing"
-                            class="rounded-xl bg-[#A31D22] px-4 py-2 text-sm font-semibold text-white hover:bg-[#7C1519] disabled:opacity-50"
+                            class="rounded-xl bg-[#A31D22] px-4 py-2.5 sm:py-2 text-sm font-semibold text-white hover:bg-[#7C1519] disabled:opacity-50"
                         >
                             {{ isEditing ? "Simpan" : "Tambah" }}
                         </button>
@@ -279,16 +325,18 @@ function executeDelete() {
                     Data mitra "{{ deleteTarget?.cabang }}" akan dihapus
                     permanen. Tindakan ini tidak bisa dibatalkan.
                 </p>
-                <div class="mt-5 flex justify-end gap-2">
+                <div
+                    class="mt-5 flex flex-col-reverse sm:flex-row sm:justify-end gap-2"
+                >
                     <button
                         @click="showDeleteConfirm = false"
-                        class="rounded-xl px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
+                        class="rounded-xl px-4 py-2.5 sm:py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
                     >
                         Batal
                     </button>
                     <button
                         @click="executeDelete"
-                        class="rounded-xl bg-red-500 px-4 py-2 text-sm font-semibold text-white hover:bg-red-600"
+                        class="rounded-xl bg-red-500 px-4 py-2.5 sm:py-2 text-sm font-semibold text-white hover:bg-red-600"
                     >
                         Hapus
                     </button>

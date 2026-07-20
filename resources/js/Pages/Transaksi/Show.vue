@@ -34,18 +34,18 @@ function cetakStruk() {
 
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold text-gray-800">
+            <h2 class="text-lg md:text-xl font-semibold text-gray-800">
                 Detail Transaksi #{{ transaksi.id }}
             </h2>
         </template>
 
-        <div class="p-8">
+        <div class="p-4 md:p-8">
             <div class="max-w-2xl mx-auto">
                 <div
-                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-6"
+                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-4 md:p-6"
                 >
                     <div
-                        class="flex items-center justify-between mb-6 pb-4 border-b border-[#EFE7DA]"
+                        class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6 pb-4 border-b border-[#EFE7DA]"
                     >
                         <div>
                             <p class="text-sm text-gray-400">
@@ -55,7 +55,7 @@ function cetakStruk() {
                                 {{ formatTanggal(transaksi.tanggal_transaksi) }}
                             </p>
                         </div>
-                        <div class="text-right">
+                        <div class="sm:text-right">
                             <p class="text-sm text-gray-400">Kasir</p>
                             <p class="font-medium text-gray-800">
                                 {{ transaksi.user?.name }}
@@ -67,10 +67,10 @@ function cetakStruk() {
                         <div
                             v-for="detail in transaksi.detail_transaksi"
                             :key="detail.id"
-                            class="flex items-center justify-between text-sm"
+                            class="flex items-start justify-between gap-3 text-sm"
                         >
-                            <div class="flex-1">
-                                <p class="font-medium text-gray-800">
+                            <div class="flex-1 min-w-0">
+                                <p class="font-medium text-gray-800 truncate">
                                     {{ detail.produk?.nama_produk }}
                                 </p>
                                 <p class="text-gray-400">
@@ -78,7 +78,7 @@ function cetakStruk() {
                                     {{ formatRupiah(detail.harga) }}
                                 </p>
                             </div>
-                            <p class="font-medium text-gray-800">
+                            <p class="font-medium text-gray-800 shrink-0">
                                 {{ formatRupiah(detail.subtotal) }}
                             </p>
                         </div>
@@ -107,10 +107,10 @@ function cetakStruk() {
                         </div>
                     </div>
 
-                    <div class="flex gap-3 mt-6">
+                    <div class="flex flex-col sm:flex-row gap-3 mt-6">
                         <button
                             @click="cetakStruk"
-                            class="flex-1 text-white font-semibold py-3 rounded-xl transition-colors hover:opacity-90"
+                            class="flex-1 text-white font-semibold py-3 rounded-xl transition-colors hover:opacity-90 order-1 sm:order-none"
                             style="background: #a31d22"
                         >
                             Cetak Struk

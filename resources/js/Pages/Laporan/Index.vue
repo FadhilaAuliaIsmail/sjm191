@@ -60,55 +60,63 @@ function formatRupiah(angka) {
     <Head title="Laporan Keuangan" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2
+                class="text-lg sm:text-xl font-semibold leading-tight text-gray-800"
+            >
                 Laporan Keuangan
             </h2>
         </template>
 
-        <div class="py-8">
-            <div class="mx-auto max-w-7xl space-y-4 px-4 sm:px-6 lg:px-8">
+        <div class="py-6 sm:py-8">
+            <div class="mx-auto max-w-7xl space-y-4 px-3 sm:px-6 lg:px-8">
                 <!-- Filter Tanggal -->
                 <div
                     class="rounded-2xl bg-white p-4 shadow-sm border border-[#EFE7DA]"
                 >
-                    <div class="flex flex-wrap items-center gap-2">
-                        <button
-                            v-for="opsi in [
-                                { key: 'hari', label: 'Hari Ini' },
-                                { key: 'minggu', label: 'Minggu Ini' },
-                                { key: 'bulan', label: 'Bulan Ini' },
-                            ]"
-                            :key="opsi.key"
-                            @click="terapkanFilter(opsi.key)"
-                            :class="[
-                                'rounded-lg px-3.5 py-1.5 text-sm font-medium transition',
-                                filterAktif === opsi.key
-                                    ? 'text-white'
-                                    : 'bg-[#FBF8F2] text-gray-600 hover:bg-[#F5EDE0]',
-                            ]"
-                            :style="
-                                filterAktif === opsi.key
-                                    ? 'background-color:#a31d22'
-                                    : ''
-                            "
+                    <div
+                        class="flex flex-col gap-3 lg:flex-row lg:items-center"
+                    >
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                v-for="opsi in [
+                                    { key: 'hari', label: 'Hari Ini' },
+                                    { key: 'minggu', label: 'Minggu Ini' },
+                                    { key: 'bulan', label: 'Bulan Ini' },
+                                ]"
+                                :key="opsi.key"
+                                @click="terapkanFilter(opsi.key)"
+                                :class="[
+                                    'rounded-lg px-3.5 py-1.5 text-sm font-medium transition',
+                                    filterAktif === opsi.key
+                                        ? 'text-white'
+                                        : 'bg-[#FBF8F2] text-gray-600 hover:bg-[#F5EDE0]',
+                                ]"
+                                :style="
+                                    filterAktif === opsi.key
+                                        ? 'background-color:#a31d22'
+                                        : ''
+                                "
+                            >
+                                {{ opsi.label }}
+                            </button>
+                        </div>
+                        <div
+                            class="flex flex-wrap items-center gap-2 lg:ml-auto"
                         >
-                            {{ opsi.label }}
-                        </button>
-                        <div class="ml-auto flex flex-wrap items-center gap-2">
                             <input
                                 v-model="dari"
                                 type="date"
-                                class="rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22]"
+                                class="min-w-0 flex-1 rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22] sm:flex-none"
                             />
                             <span class="text-sm text-gray-400">s/d</span>
                             <input
                                 v-model="sampai"
                                 type="date"
-                                class="rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22]"
+                                class="min-w-0 flex-1 rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22] sm:flex-none"
                             />
                             <button
                                 @click="terapkanFilterCustom"
-                                class="rounded-lg px-3.5 py-1.5 text-sm font-medium text-white hover:opacity-90 transition"
+                                class="w-full rounded-lg px-3.5 py-1.5 text-sm font-medium text-white hover:opacity-90 transition sm:w-auto"
                                 style="background-color: #7c1216"
                             >
                                 Terapkan
@@ -125,7 +133,9 @@ function formatRupiah(angka) {
                         <p class="text-sm font-medium text-gray-500">
                             Total Pendapatan
                         </p>
-                        <p class="mt-2 text-2xl font-bold text-green-600">
+                        <p
+                            class="mt-2 text-xl sm:text-2xl font-bold text-green-600 break-words"
+                        >
                             {{ formatRupiah(totalPendapatan) }}
                         </p>
                     </div>
@@ -136,7 +146,7 @@ function formatRupiah(angka) {
                             Total Pengeluaran
                         </p>
                         <p
-                            class="mt-2 text-2xl font-bold"
+                            class="mt-2 text-xl sm:text-2xl font-bold break-words"
                             style="color: #a31d22"
                         >
                             {{ formatRupiah(totalPengeluaran) }}
@@ -149,7 +159,7 @@ function formatRupiah(angka) {
                             Laba / Rugi
                         </p>
                         <p
-                            class="mt-2 text-2xl font-bold"
+                            class="mt-2 text-xl sm:text-2xl font-bold break-words"
                             :style="
                                 labaRugi >= 0
                                     ? 'color:#16a34a'
@@ -170,7 +180,10 @@ function formatRupiah(angka) {
                     <p class="text-sm font-medium text-gray-500">
                         Total Nilai Barang dari Sponsor
                     </p>
-                    <p class="mt-2 text-xl font-bold" style="color: #a31d22">
+                    <p
+                        class="mt-2 text-lg sm:text-xl font-bold break-words"
+                        style="color: #a31d22"
+                    >
                         {{ formatRupiah(totalSponsor) }}
                     </p>
                     <p class="mt-1 text-xs text-gray-400">
@@ -180,7 +193,7 @@ function formatRupiah(angka) {
                 </div>
 
                 <!-- Export -->
-                <div class="flex justify-end gap-2">
+                <div class="flex flex-col gap-2 sm:flex-row sm:justify-end">
                     <a
                         :href="
                             route('laporan.export-excel', {
@@ -189,7 +202,7 @@ function formatRupiah(angka) {
                                 sampai,
                             })
                         "
-                        class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
+                        class="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
                         style="background-color: #1f7a4d"
                     >
                         Export Excel
@@ -202,14 +215,14 @@ function formatRupiah(angka) {
                                 sampai,
                             })
                         "
-                        class="inline-flex items-center rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
+                        class="inline-flex items-center justify-center rounded-xl px-4 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-90 transition"
                         style="background-color: #a31d22"
                     >
                         Export PDF
                     </a>
                 </div>
 
-                <!-- Tabel Pendapatan -->
+                <!-- ══ Rincian Pendapatan ══════════════════════════════ -->
                 <div
                     class="overflow-hidden rounded-2xl bg-white shadow-sm border border-[#EFE7DA]"
                 >
@@ -218,49 +231,96 @@ function formatRupiah(angka) {
                             Rincian Pendapatan (Transaksi Penjualan)
                         </h3>
                     </div>
-                    <table class="w-full text-sm">
-                        <thead
-                            class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+
+                    <!-- Kartu: mobile & tablet kecil -->
+                    <div class="divide-y divide-[#F5EDE0] md:hidden">
+                        <div
+                            v-for="t in transaksi"
+                            :key="t.id"
+                            class="px-5 py-3"
                         >
-                            <tr>
-                                <th class="px-5 py-3">Tanggal</th>
-                                <th class="px-5 py-3">Total Harga</th>
-                                <th class="px-5 py-3">Bayar</th>
-                                <th class="px-5 py-3">Kembalian</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#F5EDE0]">
-                            <tr
-                                v-for="t in transaksi"
-                                :key="t.id"
-                                class="hover:bg-[#FBF8F2]"
+                            <div
+                                class="flex items-center justify-between gap-3"
                             >
-                                <td class="px-5 py-3 text-gray-600">
+                                <p class="text-xs text-gray-500">
                                     {{ formatTanggal(t.tanggal_transaksi) }}
-                                </td>
-                                <td class="px-5 py-3 font-medium text-gray-800">
+                                </p>
+                                <p class="font-medium text-gray-800">
                                     {{ formatRupiah(t.total_harga) }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatRupiah(t.bayar) }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatRupiah(t.kembalian) }}
-                                </td>
-                            </tr>
-                            <tr v-if="transaksi.length === 0">
-                                <td
-                                    colspan="4"
-                                    class="px-5 py-10 text-center text-sm text-gray-400"
+                                </p>
+                            </div>
+                            <div
+                                class="mt-1 flex justify-between text-xs text-gray-500"
+                            >
+                                <span>Bayar: {{ formatRupiah(t.bayar) }}</span>
+                                <span
+                                    >Kembalian:
+                                    {{ formatRupiah(t.kembalian) }}</span
                                 >
-                                    Tidak ada transaksi pada periode ini.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                        <div
+                            v-if="transaksi.length === 0"
+                            class="px-5 py-10 text-center text-sm text-gray-400"
+                        >
+                            Tidak ada transaksi pada periode ini.
+                        </div>
+                    </div>
+
+                    <!-- Tabel: desktop -->
+                    <div class="hidden overflow-x-auto md:block">
+                        <table class="w-full text-sm">
+                            <thead
+                                class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+                            >
+                                <tr>
+                                    <th class="px-5 py-3">Tanggal</th>
+                                    <th class="px-5 py-3">Total Harga</th>
+                                    <th class="px-5 py-3">Bayar</th>
+                                    <th class="px-5 py-3">Kembalian</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#F5EDE0]">
+                                <tr
+                                    v-for="t in transaksi"
+                                    :key="t.id"
+                                    class="hover:bg-[#FBF8F2]"
+                                >
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatTanggal(t.tanggal_transaksi) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium text-gray-800 whitespace-nowrap"
+                                    >
+                                        {{ formatRupiah(t.total_harga) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatRupiah(t.bayar) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatRupiah(t.kembalian) }}
+                                    </td>
+                                </tr>
+                                <tr v-if="transaksi.length === 0">
+                                    <td
+                                        colspan="4"
+                                        class="px-5 py-10 text-center text-sm text-gray-400"
+                                    >
+                                        Tidak ada transaksi pada periode ini.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- Tabel Pengeluaran -->
+                <!-- ══ Rincian Pengeluaran ═════════════════════════════ -->
                 <div
                     class="overflow-hidden rounded-2xl bg-white shadow-sm border border-[#EFE7DA]"
                 >
@@ -269,61 +329,116 @@ function formatRupiah(angka) {
                             Rincian Pengeluaran (Belanja Bahan dari Pasar)
                         </h3>
                     </div>
-                    <table class="w-full text-sm">
-                        <thead
-                            class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+
+                    <!-- Kartu: mobile & tablet kecil -->
+                    <div class="divide-y divide-[#F5EDE0] md:hidden">
+                        <div
+                            v-for="p in pengeluaran"
+                            :key="p.id"
+                            class="px-5 py-3"
                         >
-                            <tr>
-                                <th class="px-5 py-3">Tanggal</th>
-                                <th class="px-5 py-3">Nama Barang</th>
-                                <th class="px-5 py-3">Jumlah</th>
-                                <th class="px-5 py-3">Harga Beli</th>
-                                <th class="px-5 py-3">Subtotal</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#F5EDE0]">
-                            <tr
-                                v-for="p in pengeluaran"
-                                :key="p.id"
-                                class="hover:bg-[#FBF8F2]"
+                            <div
+                                class="flex items-center justify-between gap-3"
                             >
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatTanggal(p.tanggal_masuk) }}
-                                </td>
-                                <td class="px-5 py-3 font-medium text-gray-800">
+                                <p class="font-medium text-gray-800">
                                     {{ p.nama_barang }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ p.jumlah_dibeli }} {{ p.satuan }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatRupiah(p.harga_beli) }}
-                                </td>
-                                <td
-                                    class="px-5 py-3 font-medium"
-                                    style="color: #a31d22"
-                                >
+                                </p>
+                                <p class="font-medium" style="color: #a31d22">
                                     {{
                                         formatRupiah(
                                             (p.harga_beli ?? 0) *
                                                 p.jumlah_dibeli
                                         )
                                     }}
-                                </td>
-                            </tr>
-                            <tr v-if="pengeluaran.length === 0">
-                                <td
-                                    colspan="5"
-                                    class="px-5 py-10 text-center text-sm text-gray-400"
+                                </p>
+                            </div>
+                            <div
+                                class="mt-1 flex justify-between text-xs text-gray-500"
+                            >
+                                <span>{{
+                                    formatTanggal(p.tanggal_masuk)
+                                }}</span>
+                                <span
+                                    >{{ p.jumlah_dibeli }}
+                                    {{ p.satuan }} &times;
+                                    {{ formatRupiah(p.harga_beli) }}</span
                                 >
-                                    Tidak ada pengeluaran pada periode ini.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                        </div>
+                        <div
+                            v-if="pengeluaran.length === 0"
+                            class="px-5 py-10 text-center text-sm text-gray-400"
+                        >
+                            Tidak ada pengeluaran pada periode ini.
+                        </div>
+                    </div>
+
+                    <!-- Tabel: desktop -->
+                    <div class="hidden overflow-x-auto md:block">
+                        <table class="w-full text-sm">
+                            <thead
+                                class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+                            >
+                                <tr>
+                                    <th class="px-5 py-3">Tanggal</th>
+                                    <th class="px-5 py-3">Nama Barang</th>
+                                    <th class="px-5 py-3">Jumlah</th>
+                                    <th class="px-5 py-3">Harga Beli</th>
+                                    <th class="px-5 py-3">Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#F5EDE0]">
+                                <tr
+                                    v-for="p in pengeluaran"
+                                    :key="p.id"
+                                    class="hover:bg-[#FBF8F2]"
+                                >
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatTanggal(p.tanggal_masuk) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium text-gray-800"
+                                    >
+                                        {{ p.nama_barang }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ p.jumlah_dibeli }} {{ p.satuan }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatRupiah(p.harga_beli) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium whitespace-nowrap"
+                                        style="color: #a31d22"
+                                    >
+                                        {{
+                                            formatRupiah(
+                                                (p.harga_beli ?? 0) *
+                                                    p.jumlah_dibeli
+                                            )
+                                        }}
+                                    </td>
+                                </tr>
+                                <tr v-if="pengeluaran.length === 0">
+                                    <td
+                                        colspan="5"
+                                        class="px-5 py-10 text-center text-sm text-gray-400"
+                                    >
+                                        Tidak ada pengeluaran pada periode ini.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
-                <!-- Tabel Barang dari Sponsor -->
+                <!-- ══ Rincian Barang dari Sponsor ═════════════════════ -->
                 <div
                     class="overflow-hidden rounded-2xl bg-white shadow-sm border border-[#EFE7DA]"
                 >
@@ -332,45 +447,17 @@ function formatRupiah(angka) {
                             Rincian Barang dari Sponsor
                         </h3>
                     </div>
-                    <table class="w-full text-sm">
-                        <thead
-                            class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
-                        >
-                            <tr>
-                                <th class="px-5 py-3">Tanggal</th>
-                                <th class="px-5 py-3">Nama Barang</th>
-                                <th class="px-5 py-3">Jumlah</th>
-                                <th class="px-5 py-3">Estimasi Harga</th>
-                                <th class="px-5 py-3">Subtotal</th>
-                                <th class="px-5 py-3">Keterangan</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#F5EDE0]">
-                            <tr
-                                v-for="s in sponsor"
-                                :key="s.id"
-                                class="hover:bg-[#FBF8F2]"
+
+                    <!-- Kartu: mobile & tablet kecil -->
+                    <div class="divide-y divide-[#F5EDE0] md:hidden">
+                        <div v-for="s in sponsor" :key="s.id" class="px-5 py-3">
+                            <div
+                                class="flex items-center justify-between gap-3"
                             >
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatTanggal(s.tanggal_masuk) }}
-                                </td>
-                                <td class="px-5 py-3 font-medium text-gray-800">
+                                <p class="font-medium text-gray-800">
                                     {{ s.nama_barang }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ s.jumlah_dibeli }} {{ s.satuan }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{
-                                        s.harga_beli
-                                            ? formatRupiah(s.harga_beli)
-                                            : "-"
-                                    }}
-                                </td>
-                                <td
-                                    class="px-5 py-3 font-medium"
-                                    style="color: #a31d22"
-                                >
+                                </p>
+                                <p class="font-medium" style="color: #a31d22">
                                     {{
                                         s.harga_beli
                                             ? formatRupiah(
@@ -378,21 +465,107 @@ function formatRupiah(angka) {
                                               )
                                             : "-"
                                     }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-500">
-                                    {{ s.keterangan || "-" }}
-                                </td>
-                            </tr>
-                            <tr v-if="sponsor.length === 0">
-                                <td
-                                    colspan="6"
-                                    class="px-5 py-10 text-center text-sm text-gray-400"
+                                </p>
+                            </div>
+                            <div
+                                class="mt-1 flex justify-between text-xs text-gray-500"
+                            >
+                                <span>{{
+                                    formatTanggal(s.tanggal_masuk)
+                                }}</span>
+                                <span
+                                    >{{ s.jumlah_dibeli }} {{ s.satuan }}</span
                                 >
-                                    Tidak ada barang sponsor pada periode ini.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            </div>
+                            <p
+                                v-if="s.keterangan"
+                                class="mt-1 text-xs text-gray-400"
+                            >
+                                {{ s.keterangan }}
+                            </p>
+                        </div>
+                        <div
+                            v-if="sponsor.length === 0"
+                            class="px-5 py-10 text-center text-sm text-gray-400"
+                        >
+                            Tidak ada barang sponsor pada periode ini.
+                        </div>
+                    </div>
+
+                    <!-- Tabel: desktop -->
+                    <div class="hidden overflow-x-auto md:block">
+                        <table class="w-full text-sm">
+                            <thead
+                                class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+                            >
+                                <tr>
+                                    <th class="px-5 py-3">Tanggal</th>
+                                    <th class="px-5 py-3">Nama Barang</th>
+                                    <th class="px-5 py-3">Jumlah</th>
+                                    <th class="px-5 py-3">Estimasi Harga</th>
+                                    <th class="px-5 py-3">Subtotal</th>
+                                    <th class="px-5 py-3">Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#F5EDE0]">
+                                <tr
+                                    v-for="s in sponsor"
+                                    :key="s.id"
+                                    class="hover:bg-[#FBF8F2]"
+                                >
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatTanggal(s.tanggal_masuk) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium text-gray-800"
+                                    >
+                                        {{ s.nama_barang }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ s.jumlah_dibeli }} {{ s.satuan }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{
+                                            s.harga_beli
+                                                ? formatRupiah(s.harga_beli)
+                                                : "-"
+                                        }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium whitespace-nowrap"
+                                        style="color: #a31d22"
+                                    >
+                                        {{
+                                            s.harga_beli
+                                                ? formatRupiah(
+                                                      s.harga_beli *
+                                                          s.jumlah_dibeli
+                                                  )
+                                                : "-"
+                                        }}
+                                    </td>
+                                    <td class="px-5 py-3 text-gray-500">
+                                        {{ s.keterangan || "-" }}
+                                    </td>
+                                </tr>
+                                <tr v-if="sponsor.length === 0">
+                                    <td
+                                        colspan="6"
+                                        class="px-5 py-10 text-center text-sm text-gray-400"
+                                    >
+                                        Tidak ada barang sponsor pada periode
+                                        ini.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

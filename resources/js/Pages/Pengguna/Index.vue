@@ -105,29 +105,33 @@ function executeDelete() {
     <AuthenticatedLayout>
         <template #header>
             <div>
-                <h2 class="text-xl font-semibold leading-tight text-gray-800">
+                <h2
+                    class="text-lg sm:text-xl font-semibold leading-tight text-gray-800"
+                >
                     Kelola Pengguna
                 </h2>
-                <p class="text-sm text-gray-400 mt-0.5">
+                <p class="text-xs sm:text-sm text-gray-400 mt-0.5">
                     {{ pengguna.length }} pengguna terdaftar
                 </p>
             </div>
         </template>
 
         <!-- Aksi + Search -->
-        <div class="flex items-center justify-between mb-4">
+        <div
+            class="flex flex-col gap-3 mb-4 sm:flex-row sm:items-center sm:justify-between"
+        >
             <input
                 v-model="search"
                 type="text"
                 placeholder="Cari nama atau email..."
-                class="w-full max-w-sm rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-300"
+                class="w-full rounded-xl border border-gray-200 px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-red-300 sm:max-w-sm"
             />
             <button
                 @click="openCreate"
-                class="flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition ml-4"
+                class="flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white text-sm font-semibold px-4 py-2.5 rounded-xl transition w-full sm:w-auto sm:ml-4"
             >
                 <svg
-                    class="w-4 h-4"
+                    class="w-4 h-4 shrink-0"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -143,73 +147,133 @@ function executeDelete() {
             </button>
         </div>
 
-        <!-- Tabel -->
-        <div
-            class="overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100"
-        >
-            <table class="w-full text-sm">
-                <thead
-                    class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500"
-                >
-                    <tr>
-                        <th class="px-5 py-3">Nama</th>
-                        <th class="px-5 py-3">Email</th>
-                        <th class="px-5 py-3">Peran</th>
-                        <th class="px-5 py-3 text-right">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-100">
-                    <tr
-                        v-for="item in filtered"
-                        :key="item.id"
-                        class="hover:bg-gray-50"
-                    >
-                        <td class="px-5 py-3 font-medium text-gray-800">
+        <!-- ══ TAMPILAN KARTU (mobile & tablet kecil) ═══════════════ -->
+        <div class="space-y-3 md:hidden">
+            <div
+                v-for="item in filtered"
+                :key="item.id"
+                class="rounded-2xl bg-white shadow-sm border border-gray-100 p-4"
+            >
+                <div class="flex items-start justify-between gap-3">
+                    <div class="min-w-0">
+                        <p class="font-medium text-gray-800 truncate">
                             {{ item.name }}
                             <span
                                 v-if="item.id === authUserId"
-                                class="ml-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500"
+                                class="ml-1.5 inline-block rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500 align-middle"
                                 >Anda</span
                             >
-                        </td>
-                        <td class="px-5 py-3 text-gray-500">
+                        </p>
+                        <p class="text-sm text-gray-500 truncate mt-0.5">
                             {{ item.email }}
-                        </td>
-                        <td class="px-5 py-3">
-                            <span
-                                :class="peranBadge(item.peran)"
-                                class="rounded-full px-2.5 py-1 text-xs font-semibold"
-                            >
-                                {{ peranLabel(item.peran) }}
-                            </span>
-                        </td>
-                        <td class="px-5 py-3 text-right">
-                            <button
-                                @click="openEdit(item)"
-                                class="mr-3 text-sm font-medium text-red-600 hover:text-red-800"
-                            >
-                                Edit
-                            </button>
-                            <button
-                                v-if="item.id !== authUserId"
-                                @click="confirmDelete(item)"
-                                class="text-sm font-medium text-red-500 hover:text-red-700"
-                            >
-                                Hapus
-                            </button>
-                            <span v-else class="text-xs text-gray-300">—</span>
-                        </td>
-                    </tr>
-                    <tr v-if="filtered.length === 0">
-                        <td
-                            colspan="4"
-                            class="px-5 py-10 text-center text-sm text-gray-400"
+                        </p>
+                    </div>
+                    <span
+                        :class="peranBadge(item.peran)"
+                        class="shrink-0 rounded-full px-2.5 py-1 text-xs font-semibold"
+                    >
+                        {{ peranLabel(item.peran) }}
+                    </span>
+                </div>
+
+                <div class="mt-3 flex gap-2 border-t border-gray-100 pt-3">
+                    <button
+                        @click="openEdit(item)"
+                        class="flex-1 rounded-xl border border-gray-200 py-2 text-sm font-medium text-red-600 hover:bg-gray-50"
+                    >
+                        Edit
+                    </button>
+                    <button
+                        v-if="item.id !== authUserId"
+                        @click="confirmDelete(item)"
+                        class="flex-1 rounded-xl border border-gray-200 py-2 text-sm font-medium text-red-500 hover:bg-gray-50"
+                    >
+                        Hapus
+                    </button>
+                </div>
+            </div>
+
+            <div
+                v-if="filtered.length === 0"
+                class="rounded-2xl bg-white shadow-sm border border-gray-100 px-5 py-10 text-center text-sm text-gray-400"
+            >
+                Tidak ada pengguna ditemukan.
+            </div>
+        </div>
+
+        <!-- ══ TAMPILAN TABEL (tablet besar & desktop) ══════════════ -->
+        <div
+            class="hidden overflow-hidden rounded-2xl bg-white shadow-sm border border-gray-100 md:block"
+        >
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm">
+                    <thead
+                        class="bg-gray-50 text-left text-xs font-semibold uppercase text-gray-500"
+                    >
+                        <tr>
+                            <th class="px-5 py-3">Nama</th>
+                            <th class="px-5 py-3">Email</th>
+                            <th class="px-5 py-3">Peran</th>
+                            <th class="px-5 py-3 text-right">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                        <tr
+                            v-for="item in filtered"
+                            :key="item.id"
+                            class="hover:bg-gray-50"
                         >
-                            Tidak ada pengguna ditemukan.
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+                            <td
+                                class="px-5 py-3 font-medium text-gray-800 whitespace-nowrap"
+                            >
+                                {{ item.name }}
+                                <span
+                                    v-if="item.id === authUserId"
+                                    class="ml-1.5 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-500"
+                                    >Anda</span
+                                >
+                            </td>
+                            <td class="px-5 py-3 text-gray-500">
+                                {{ item.email }}
+                            </td>
+                            <td class="px-5 py-3">
+                                <span
+                                    :class="peranBadge(item.peran)"
+                                    class="rounded-full px-2.5 py-1 text-xs font-semibold whitespace-nowrap"
+                                >
+                                    {{ peranLabel(item.peran) }}
+                                </span>
+                            </td>
+                            <td class="px-5 py-3 text-right whitespace-nowrap">
+                                <button
+                                    @click="openEdit(item)"
+                                    class="mr-3 text-sm font-medium text-red-600 hover:text-red-800"
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    v-if="item.id !== authUserId"
+                                    @click="confirmDelete(item)"
+                                    class="text-sm font-medium text-red-500 hover:text-red-700"
+                                >
+                                    Hapus
+                                </button>
+                                <span v-else class="text-xs text-gray-300"
+                                    >—</span
+                                >
+                            </td>
+                        </tr>
+                        <tr v-if="filtered.length === 0">
+                            <td
+                                colspan="4"
+                                class="px-5 py-10 text-center text-sm text-gray-400"
+                            >
+                                Tidak ada pengguna ditemukan.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
         <!-- ══ MODAL TAMBAH / EDIT ════════════════════════════════ -->
@@ -220,7 +284,7 @@ function executeDelete() {
                 @click.self="closeModal"
             >
                 <div
-                    class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-xl"
+                    class="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-5 sm:p-6 shadow-xl"
                 >
                     <div class="flex items-center justify-between mb-4">
                         <h3 class="text-lg font-semibold text-gray-800">
@@ -393,7 +457,9 @@ function executeDelete() {
                 class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm px-4"
                 @click.self="showDeleteConfirm = false"
             >
-                <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+                <div
+                    class="w-full max-w-sm rounded-2xl bg-white p-5 sm:p-6 shadow-xl"
+                >
                     <div
                         class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mb-4 mx-auto"
                     >

@@ -40,20 +40,20 @@ function closeSidebar() {
 
 <template>
     <div class="h-screen bg-[#FBF8F2] flex overflow-hidden relative">
-        <!-- Overlay (mobile only, saat sidebar terbuka) -->
+        <!-- Overlay (mobile/tablet only, saat sidebar terbuka) -->
         <div
             v-if="sidebarOpen"
             @click="closeSidebar"
-            class="fixed inset-0 bg-black/50 z-30 lg:hidden"
+            class="fixed inset-0 bg-black/50 z-30 xl:hidden"
         ></div>
 
         <!-- Sidebar -->
         <aside
-            class="w-64 flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out"
+            class="w-64 flex flex-col shrink-0 fixed xl:static inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out"
             :class="
                 sidebarOpen
                     ? 'translate-x-0'
-                    : '-translate-x-full lg:translate-x-0'
+                    : '-translate-x-full xl:translate-x-0'
             "
             style="
                 background: radial-gradient(
@@ -100,11 +100,11 @@ function closeSidebar() {
                         191
                     </p>
                 </div>
-                <!-- Tombol tutup, cuma muncul di mobile -->
+                <!-- Tombol tutup, cuma muncul di mobile/tablet -->
                 <button
                     type="button"
                     @click="closeSidebar"
-                    class="lg:hidden shrink-0 text-white/70 hover:text-white"
+                    class="xl:hidden shrink-0 text-white/70 hover:text-white"
                 >
                     <X class="w-5 h-5" />
                 </button>
@@ -310,11 +310,11 @@ function closeSidebar() {
                 class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 md:px-8 gap-3"
             >
                 <div class="flex items-center gap-3 min-w-0">
-                    <!-- Tombol hamburger, cuma muncul di mobile -->
+                    <!-- Tombol hamburger, cuma muncul di mobile/tablet -->
                     <button
                         type="button"
                         @click="sidebarOpen = true"
-                        class="lg:hidden shrink-0 text-gray-500 hover:text-gray-700"
+                        class="xl:hidden shrink-0 text-gray-500 hover:text-gray-700"
                     >
                         <Menu class="w-6 h-6" />
                     </button>

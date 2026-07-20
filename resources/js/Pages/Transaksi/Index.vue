@@ -103,38 +103,46 @@ function formatTanggal(tanggal) {
             </h2>
         </template>
 
-        <div class="p-8">
+        <div class="p-4 md:p-8">
             <!-- Filter -->
             <div
-                class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-5 mb-5"
+                class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-4 md:p-5 mb-5"
             >
-                <div class="flex flex-wrap items-end justify-between gap-4">
-                    <div class="flex flex-wrap items-end gap-4">
-                        <div>
+                <div
+                    class="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-4"
+                >
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-end gap-3 sm:gap-4"
+                    >
+                        <div class="flex-1 sm:flex-none">
                             <label class="block text-sm text-gray-500 mb-1"
                                 >Dari Tanggal</label
                             >
                             <input
+                                ref="tanggalAwalInput"
                                 v-model="tanggalAwal"
                                 type="date"
-                                class="px-4 py-2 rounded-xl border border-[#EFE7DA] focus:outline-none focus:ring-2"
+                                @click="$refs.tanggalAwalInput.showPicker?.()"
+                                class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-[#EFE7DA] focus:outline-none focus:ring-2 cursor-pointer"
                                 style="--tw-ring-color: rgba(163, 29, 34, 0.25)"
                             />
                         </div>
-                        <div>
+                        <div class="flex-1 sm:flex-none">
                             <label class="block text-sm text-gray-500 mb-1"
                                 >Sampai Tanggal</label
                             >
                             <input
+                                ref="tanggalAkhirInput"
                                 v-model="tanggalAkhir"
                                 type="date"
-                                class="px-4 py-2 rounded-xl border border-[#EFE7DA] focus:outline-none focus:ring-2"
+                                @click="$refs.tanggalAkhirInput.showPicker?.()"
+                                class="w-full sm:w-auto px-4 py-2.5 rounded-xl border border-[#EFE7DA] focus:outline-none focus:ring-2 cursor-pointer"
                                 style="--tw-ring-color: rgba(163, 29, 34, 0.25)"
                             />
                         </div>
                         <button
                             @click="terapkanFilter"
-                            class="text-white font-medium px-5 py-2.5 rounded-xl transition-colors hover:opacity-90"
+                            class="text-white font-medium px-5 py-2.5 rounded-xl transition-colors hover:opacity-90 w-full sm:w-auto"
                             style="background: #a31d22"
                         >
                             Terapkan
@@ -153,7 +161,7 @@ function formatTanggal(tanggal) {
                                     ? 'background:#a31d22'
                                     : ''
                             "
-                            class="px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
+                            class="flex-1 sm:flex-none px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
                         >
                             Hari Ini
                         </button>
@@ -169,7 +177,7 @@ function formatTanggal(tanggal) {
                                     ? 'background:#a31d22'
                                     : ''
                             "
-                            class="px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
+                            class="flex-1 sm:flex-none px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
                         >
                             Minggu Ini
                         </button>
@@ -185,7 +193,7 @@ function formatTanggal(tanggal) {
                                     ? 'background:#a31d22'
                                     : ''
                             "
-                            class="px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
+                            class="flex-1 sm:flex-none px-4 py-2 rounded-xl border text-sm font-medium transition-colors"
                         >
                             Bulan Ini
                         </button>
@@ -194,28 +202,86 @@ function formatTanggal(tanggal) {
             </div>
 
             <!-- Ringkasan -->
-            <div class="grid grid-cols-2 gap-4 mb-5">
+            <div class="grid grid-cols-2 gap-3 md:gap-4 mb-5">
                 <div
-                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-5"
+                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-4 md:p-5"
                 >
-                    <p class="text-sm text-gray-400">Total Pendapatan</p>
-                    <p class="text-2xl font-bold text-gray-800 mt-1">
+                    <p class="text-xs md:text-sm text-gray-400">
+                        Total Pendapatan
+                    </p>
+                    <p
+                        class="text-lg md:text-2xl font-bold text-gray-800 mt-1 truncate"
+                    >
                         {{ formatRupiah(totalPendapatan) }}
                     </p>
                 </div>
                 <div
-                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-5"
+                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-4 md:p-5"
                 >
-                    <p class="text-sm text-gray-400">Jumlah Transaksi</p>
-                    <p class="text-2xl font-bold text-gray-800 mt-1">
+                    <p class="text-xs md:text-sm text-gray-400">
+                        Jumlah Transaksi
+                    </p>
+                    <p class="text-lg md:text-2xl font-bold text-gray-800 mt-1">
                         {{ jumlahTransaksi }}
                     </p>
                 </div>
             </div>
 
             <!-- Daftar Transaksi -->
+
+            <!-- Versi Card (mobile & tablet) -->
+            <div class="lg:hidden space-y-3">
+                <div
+                    v-for="transaksi in transaksis"
+                    :key="transaksi.id"
+                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] p-4"
+                >
+                    <div class="flex items-start justify-between gap-2">
+                        <div>
+                            <p class="font-semibold text-gray-800 text-sm">
+                                #{{ transaksi.id }}
+                            </p>
+                            <p class="text-xs text-gray-400 mt-0.5">
+                                {{ formatTanggal(transaksi.tanggal_transaksi) }}
+                            </p>
+                        </div>
+                        <p
+                            class="font-bold text-sm shrink-0"
+                            style="color: #a31d22"
+                        >
+                            {{ formatRupiah(transaksi.total_harga) }}
+                        </p>
+                    </div>
+                    <div
+                        class="flex items-center justify-between mt-3 pt-3 border-t border-[#F5EDE0]"
+                    >
+                        <p class="text-xs text-gray-500">
+                            Kasir:
+                            <span class="text-gray-700 font-medium">{{
+                                transaksi.user?.name
+                            }}</span>
+                        </p>
+                        <Link
+                            :href="route('transaksi.show', transaksi.id)"
+                            class="text-xs font-semibold hover:underline"
+                            style="color: #a31d22"
+                        >
+                            Lihat Detail →
+                        </Link>
+                    </div>
+                </div>
+
+                <div
+                    v-if="transaksis.length === 0"
+                    class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] py-12 text-center text-gray-400 text-sm"
+                >
+                    Tidak ada transaksi pada rentang tanggal ini.
+                </div>
+            </div>
+
+            <!-- Versi Tabel (desktop) -->
             <div
-                class="bg-white rounded-2xl shadow-sm border border-[#EFE7DA] overflow-hidden"
+                class="hidden lg:block bg-white rounded-2xl shadow-sm border border-[#EFE7DA] overflow-hidden"
             >
                 <table class="w-full text-sm">
                     <thead>

@@ -124,7 +124,7 @@ function submitTransaksi() {
                 </div>
 
                 <div
-                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4"
+                    class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 lg:gap-4 pb-6"
                 >
                     <button
                         v-for="p in filteredProduk"
