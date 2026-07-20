@@ -354,15 +354,16 @@ function closeSidebar() {
                                 <div
                                     v-for="p in stokMenipisList"
                                     :key="p.id"
-                                    class="flex items-center justify-between px-4 py-2.5 hover:bg-gray-50"
+                                    class="flex items-center justify-between gap-3 px-4 py-2.5 hover:bg-gray-50"
                                 >
-                                    <span class="text-sm text-gray-700">{{
-                                        p.nama_produk
-                                    }}</span>
                                     <span
-                                        class="rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-600"
+                                        class="text-sm text-gray-700 truncate"
+                                        >{{ p.nama_produk }}</span
                                     >
-                                        {{ p.stok }} {{ p.satuan }}
+                                    <span
+                                        class="shrink-0 rounded-full bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-600 whitespace-nowrap"
+                                    >
+                                        Sisa {{ p.stok }} {{ p.satuan }}
                                     </span>
                                 </div>
                                 <p
@@ -373,11 +374,11 @@ function closeSidebar() {
                                 </p>
                             </div>
                             <Link
-                                href="/dashboard"
+                                :href="route('produk.index')"
                                 @click="showNotifDropdown = false"
                                 class="block border-t border-gray-100 px-4 py-2.5 text-center text-sm font-medium text-red-600 hover:bg-red-50"
                             >
-                                Lihat di Dashboard
+                                Kelola Produk
                             </Link>
                         </div>
                     </div>
