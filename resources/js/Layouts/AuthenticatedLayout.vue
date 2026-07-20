@@ -6,6 +6,7 @@ import {
     History,
     LayoutDashboard,
     LogOut,
+    Menu,
     Package,
     Settings,
     ShoppingCart,
@@ -13,6 +14,7 @@ import {
     UserCog,
     Users,
     Wallet,
+    X,
 } from "lucide-vue-next";
 import { computed, ref } from "vue";
 
@@ -25,17 +27,34 @@ const isKasir = user.peran === "kasir";
 const stokMenipisCount = computed(() => page.props.stokMenipisCount ?? 0);
 const stokMenipisList = computed(() => page.props.stokMenipisList ?? []);
 const showNotifDropdown = ref(false);
+const sidebarOpen = ref(false);
 
 function logout() {
     router.post(route("logout"));
 }
+
+function closeSidebar() {
+    sidebarOpen.value = false;
+}
 </script>
 
 <template>
-    <div class="h-screen bg-[#FBF8F2] flex overflow-hidden">
+    <div class="h-screen bg-[#FBF8F2] flex overflow-hidden relative">
+        <!-- Overlay (mobile only, saat sidebar terbuka) -->
+        <div
+            v-if="sidebarOpen"
+            @click="closeSidebar"
+            class="fixed inset-0 bg-black/50 z-30 lg:hidden"
+        ></div>
+
         <!-- Sidebar -->
         <aside
-            class="w-64 flex flex-col shrink-0"
+            class="w-64 flex flex-col shrink-0 fixed lg:static inset-y-0 left-0 z-40 transition-transform duration-300 ease-in-out"
+            :class="
+                sidebarOpen
+                    ? 'translate-x-0'
+                    : '-translate-x-full lg:translate-x-0'
+            "
             style="
                 background: radial-gradient(
                     130% 90% at 20% 0%,
@@ -63,7 +82,7 @@ function logout() {
                         class="w-9 h-9 rounded-full object-cover"
                     />
                 </div>
-                <div class="leading-tight min-w-0">
+                <div class="leading-tight min-w-0 flex-1">
                     <p
                         class="text-sm font-bold truncate"
                         style="
@@ -81,6 +100,14 @@ function logout() {
                         191
                     </p>
                 </div>
+                <!-- Tombol tutup, cuma muncul di mobile -->
+                <button
+                    type="button"
+                    @click="closeSidebar"
+                    class="lg:hidden shrink-0 text-white/70 hover:text-white"
+                >
+                    <X class="w-5 h-5" />
+                </button>
             </div>
 
             <!-- Nav -->
@@ -97,6 +124,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('dashboard'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <LayoutDashboard class="nav-icon" />
                                 <span>Dashboard</span>
@@ -108,6 +136,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('pos.index'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <ShoppingCart class="nav-icon" />
                                 <span>Kasir</span>
@@ -120,6 +149,7 @@ function logout() {
                                         route().current('transaksi.index') ||
                                         route().current('transaksi.show'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <History class="nav-icon" />
                                 <span>Riwayat Transaksi</span>
@@ -137,6 +167,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('produk.*'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <Package class="nav-icon" />
                                 <span>Kelola Produk</span>
@@ -157,6 +188,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('dashboard'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <LayoutDashboard class="nav-icon" />
                                 <span>Dashboard</span>
@@ -174,6 +206,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('produk.*'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <Package class="nav-icon" />
                                 <span>Produk</span>
@@ -185,6 +218,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('data-mitra.*'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <Users class="nav-icon" />
                                 <span>Data Mitra</span>
@@ -196,6 +230,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('pengguna.*'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <UserCog class="nav-icon" />
                                 <span>Pengguna</span>
@@ -213,6 +248,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('barang-produksi.*'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <Truck class="nav-icon" />
                                 <span>Barang Produksi</span>
@@ -230,6 +266,7 @@ function logout() {
                                     'nav-link-active':
                                         route().current('laporan.index'),
                                 }"
+                                @click="closeSidebar"
                             >
                                 <Wallet class="nav-icon" />
                                 <span>Laporan Keuangan</span>
@@ -250,6 +287,7 @@ function logout() {
                     :class="{
                         'nav-link-active': route().current('profile.edit'),
                     }"
+                    @click="closeSidebar"
                 >
                     <Settings class="nav-icon" />
                     <span>Pengaturan</span>
@@ -269,14 +307,24 @@ function logout() {
         <div class="flex-1 flex flex-col min-w-0">
             <!-- Topbar -->
             <header
-                class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-8"
+                class="h-16 bg-white border-b border-gray-100 flex items-center justify-between px-4 md:px-8 gap-3"
             >
-                <div>
-                    <slot name="header" />
+                <div class="flex items-center gap-3 min-w-0">
+                    <!-- Tombol hamburger, cuma muncul di mobile -->
+                    <button
+                        type="button"
+                        @click="sidebarOpen = true"
+                        class="lg:hidden shrink-0 text-gray-500 hover:text-gray-700"
+                    >
+                        <Menu class="w-6 h-6" />
+                    </button>
+                    <div class="min-w-0">
+                        <slot name="header" />
+                    </div>
                 </div>
 
                 <!-- Notifikasi + Profil -->
-                <div class="flex items-center gap-4">
+                <div class="flex items-center gap-2 md:gap-4 shrink-0">
                     <div v-if="isPemilik" class="relative">
                         <button
                             type="button"
@@ -295,7 +343,7 @@ function logout() {
 
                         <div
                             v-if="showNotifDropdown"
-                            class="absolute right-0 top-full mt-2 w-72 rounded-xl bg-white shadow-lg ring-1 ring-gray-100 z-50"
+                            class="absolute right-0 top-full mt-2 w-72 max-w-[90vw] rounded-xl bg-white shadow-lg ring-1 ring-gray-100 z-50"
                         >
                             <div class="border-b border-gray-100 px-4 py-2.5">
                                 <p class="text-sm font-semibold text-gray-700">
@@ -340,7 +388,7 @@ function logout() {
                         >
                             {{ user.name.charAt(0).toUpperCase() }}
                         </div>
-                        <div class="text-left leading-tight">
+                        <div class="text-left leading-tight hidden sm:block">
                             <p class="text-sm font-semibold text-gray-800">
                                 {{ user.name }}
                             </p>
@@ -353,7 +401,7 @@ function logout() {
             </header>
 
             <!-- Content -->
-            <main class="flex-1 p-8 overflow-auto">
+            <main class="flex-1 p-4 md:p-8 overflow-auto">
                 <slot />
             </main>
         </div>
