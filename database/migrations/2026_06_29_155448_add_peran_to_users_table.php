@@ -8,14 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('pengguna', function (Blueprint $table) {
             $table->enum('peran', ['pemilik_usaha', 'kasir'])->default('kasir')->after('email');
         });
     }
 
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
+        Schema::table('pengguna', function (Blueprint $table) {
             $table->dropColumn('peran');
         });
     }

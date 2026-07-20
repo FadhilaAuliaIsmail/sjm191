@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('data_mitra', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('user_id')->constrained('pengguna')->cascadeOnDelete();
             $table->string('cabang');
             $table->text('alamat');
             $table->string('no_telp', 20);

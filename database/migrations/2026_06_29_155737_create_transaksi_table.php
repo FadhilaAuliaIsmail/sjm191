@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('transaksi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete(); // kasir yg transaksi
+            $table->foreignId('user_id')->constrained('pengguna')->cascadeOnDelete(); // kasir yg transaksi
             $table->dateTime('tanggal_transaksi');
             $table->decimal('total_harga', 12, 2);
             $table->decimal('bayar', 12, 2);
