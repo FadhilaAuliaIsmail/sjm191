@@ -171,12 +171,14 @@ function executeDelete() {
     <Head title="Barang Produksi" />
     <AuthenticatedLayout>
         <template #header>
-            <h2 class="text-xl font-semibold leading-tight text-gray-800">
+            <h2
+                class="text-lg sm:text-xl font-semibold leading-tight text-gray-800"
+            >
                 Barang Produksi
             </h2>
         </template>
 
-        <div class="p-8">
+        <div class="p-3 sm:p-8">
             <div class="mx-auto max-w-7xl space-y-4">
                 <p class="text-sm text-gray-500">
                     Catatan barang/bahan yang masuk. Data ini hanya riwayat,
@@ -184,7 +186,9 @@ function executeDelete() {
                 </p>
 
                 <!-- Tab Sumber -->
-                <div class="flex gap-2 border-b border-[#EFE7DA]">
+                <div
+                    class="flex gap-2 overflow-x-auto border-b border-[#EFE7DA]"
+                >
                     <button
                         v-for="tab in [
                             { key: 'pasar', label: 'Beli dari Pasar' },
@@ -193,7 +197,7 @@ function executeDelete() {
                         :key="tab.key"
                         @click="gantiSumber(tab.key)"
                         :class="[
-                            'border-b-2 px-4 py-2.5 text-sm font-semibold transition',
+                            'shrink-0 border-b-2 px-4 py-2.5 text-sm font-semibold transition',
                         ]"
                         :style="
                             sumberAktif === tab.key
@@ -209,45 +213,51 @@ function executeDelete() {
                 <div
                     class="rounded-2xl bg-white p-4 shadow-sm border border-[#EFE7DA]"
                 >
-                    <div class="flex flex-wrap items-center gap-2">
-                        <button
-                            v-for="opsi in [
-                                { key: 'semua', label: 'Semua' },
-                                { key: 'hari', label: 'Hari Ini' },
-                                { key: 'minggu', label: 'Minggu Ini' },
-                                { key: 'bulan', label: 'Bulan Ini' },
-                            ]"
-                            :key="opsi.key"
-                            @click="terapkanFilter(opsi.key)"
-                            :class="[
-                                'rounded-lg px-3 py-1.5 text-sm font-medium transition',
-                                filterAktif === opsi.key
-                                    ? 'text-white'
-                                    : 'bg-[#FBF8F2] text-gray-600 hover:bg-[#F5EDE0]',
-                            ]"
-                            :style="
-                                filterAktif === opsi.key
-                                    ? 'background-color:#a31d22'
-                                    : ''
-                            "
+                    <div
+                        class="flex flex-col gap-3 lg:flex-row lg:items-center"
+                    >
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                v-for="opsi in [
+                                    { key: 'semua', label: 'Semua' },
+                                    { key: 'hari', label: 'Hari Ini' },
+                                    { key: 'minggu', label: 'Minggu Ini' },
+                                    { key: 'bulan', label: 'Bulan Ini' },
+                                ]"
+                                :key="opsi.key"
+                                @click="terapkanFilter(opsi.key)"
+                                :class="[
+                                    'rounded-lg px-3 py-1.5 text-sm font-medium transition',
+                                    filterAktif === opsi.key
+                                        ? 'text-white'
+                                        : 'bg-[#FBF8F2] text-gray-600 hover:bg-[#F5EDE0]',
+                                ]"
+                                :style="
+                                    filterAktif === opsi.key
+                                        ? 'background-color:#a31d22'
+                                        : ''
+                                "
+                            >
+                                {{ opsi.label }}
+                            </button>
+                        </div>
+                        <div
+                            class="flex flex-wrap items-center gap-2 lg:ml-auto"
                         >
-                            {{ opsi.label }}
-                        </button>
-                        <div class="ml-auto flex flex-wrap items-center gap-2">
                             <input
                                 v-model="dari"
                                 type="date"
-                                class="rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22]"
+                                class="min-w-0 flex-1 rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22] sm:flex-none"
                             />
                             <span class="text-sm text-gray-400">s/d</span>
                             <input
                                 v-model="sampai"
                                 type="date"
-                                class="rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22]"
+                                class="min-w-0 flex-1 rounded-lg border-[#EFE7DA] text-sm shadow-sm focus:border-[#a31d22] focus:ring-[#a31d22] sm:flex-none"
                             />
                             <button
                                 @click="terapkanFilterCustom"
-                                class="rounded-lg px-3 py-1.5 text-sm font-medium text-white hover:opacity-90"
+                                class="w-full rounded-lg px-3 py-1.5 text-sm font-medium text-white hover:opacity-90 sm:w-auto"
                                 style="background-color: #7c1216"
                             >
                                 Terapkan
@@ -261,7 +271,9 @@ function executeDelete() {
                     v-if="ringkasan.length > 0"
                     class="rounded-2xl bg-white p-5 shadow-sm border border-[#EFE7DA]"
                 >
-                    <div class="mb-3 flex items-center justify-between">
+                    <div
+                        class="mb-3 flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between"
+                    >
                         <h3 class="text-sm font-semibold text-gray-700">
                             Ringkasan (sesuai filter)
                         </h3>
@@ -317,96 +329,191 @@ function executeDelete() {
                     </button>
                 </div>
 
-                <!-- Tabel -->
-                <div
-                    class="overflow-hidden rounded-2xl bg-white shadow-sm border border-[#EFE7DA]"
-                >
-                    <table class="w-full text-sm">
-                        <thead
-                            class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
-                        >
-                            <tr>
-                                <th class="px-5 py-3">Tanggal</th>
-                                <th class="px-5 py-3">Nama Barang</th>
-                                <th class="px-5 py-3">Rincian Beli</th>
-                                <th class="px-5 py-3">
-                                    {{
-                                        sumberAktif === "pasar"
-                                            ? "Harga Beli"
-                                            : "Estimasi Harga"
-                                    }}
-                                </th>
-                                <th class="px-5 py-3">Subtotal</th>
-                                <th class="px-5 py-3">Keterangan</th>
-                                <th class="px-5 py-3 text-right">Aksi</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-[#F5EDE0]">
-                            <tr
-                                v-for="item in dataFiltered"
-                                :key="item.id"
-                                class="hover:bg-[#FBF8F2]"
-                            >
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{ formatTanggal(item.tanggal_masuk) }}
-                                </td>
-                                <td class="px-5 py-3 font-medium text-gray-800">
+                <!-- ══ Kartu: mobile & tablet kecil ═══════════════════ -->
+                <div class="space-y-3 lg:hidden">
+                    <div
+                        v-for="item in dataFiltered"
+                        :key="item.id"
+                        class="rounded-2xl bg-white shadow-sm border border-[#EFE7DA] p-4"
+                    >
+                        <div class="flex items-start justify-between gap-3">
+                            <div class="min-w-0">
+                                <p class="font-medium text-gray-800 truncate">
                                     {{ item.nama_barang }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-500">
-                                    {{ item.jumlah_dibeli }} kuantitas, berat
-                                    {{ parseFloat(item.berat_per_satuan) }}
-                                    {{ item.satuan }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-600">
-                                    {{
-                                        item.harga_beli
-                                            ? formatRupiah(item.harga_beli)
-                                            : "-"
-                                    }}
-                                </td>
-                                <td
-                                    class="px-5 py-3 font-semibold"
-                                    style="color: #a31d22"
+                                </p>
+                                <p class="text-xs text-gray-500 mt-0.5">
+                                    {{ formatTanggal(item.tanggal_masuk) }}
+                                </p>
+                            </div>
+                            <p
+                                class="shrink-0 font-semibold whitespace-nowrap"
+                                style="color: #a31d22"
+                            >
+                                {{
+                                    item.harga_beli
+                                        ? formatRupiah(
+                                              item.jumlah_dibeli *
+                                                  item.harga_beli
+                                          )
+                                        : "-"
+                                }}
+                            </p>
+                        </div>
+
+                        <p class="mt-2 text-sm text-gray-500">
+                            {{ item.jumlah_dibeli }} kuantitas, berat
+                            {{ parseFloat(item.berat_per_satuan) }}
+                            {{ item.satuan }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            {{
+                                sumberAktif === "pasar"
+                                    ? "Harga beli"
+                                    : "Estimasi harga"
+                            }}:
+                            {{
+                                item.harga_beli
+                                    ? formatRupiah(item.harga_beli)
+                                    : "-"
+                            }}
+                        </p>
+                        <p
+                            v-if="item.keterangan"
+                            class="mt-1 text-xs text-gray-400"
+                        >
+                            {{ item.keterangan }}
+                        </p>
+
+                        <div
+                            class="mt-3 flex gap-2 border-t border-[#F5EDE0] pt-3"
+                        >
+                            <button
+                                @click="openEditModal(item)"
+                                class="flex-1 rounded-xl border border-[#EFE7DA] py-2 text-sm font-medium hover:bg-[#FBF8F2]"
+                                style="color: #a31d22"
+                            >
+                                Edit
+                            </button>
+                            <button
+                                @click="confirmDelete(item)"
+                                class="flex-1 rounded-xl border border-[#EFE7DA] py-2 text-sm font-medium text-red-500 hover:bg-[#FBF8F2]"
+                            >
+                                Hapus
+                            </button>
+                        </div>
+                    </div>
+
+                    <div
+                        v-if="dataFiltered.length === 0"
+                        class="rounded-2xl bg-white shadow-sm border border-[#EFE7DA] px-5 py-10 text-center text-sm text-gray-400"
+                    >
+                        Belum ada data.
+                    </div>
+                </div>
+
+                <!-- ══ Tabel: desktop besar ════════════════════════════ -->
+                <div
+                    class="hidden overflow-hidden rounded-2xl bg-white shadow-sm border border-[#EFE7DA] lg:block"
+                >
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-sm">
+                            <thead
+                                class="bg-[#FBF8F2] text-left text-xs font-semibold uppercase text-gray-500"
+                            >
+                                <tr>
+                                    <th class="px-5 py-3">Tanggal</th>
+                                    <th class="px-5 py-3">Nama Barang</th>
+                                    <th class="px-5 py-3">Rincian Beli</th>
+                                    <th class="px-5 py-3">
+                                        {{
+                                            sumberAktif === "pasar"
+                                                ? "Harga Beli"
+                                                : "Estimasi Harga"
+                                        }}
+                                    </th>
+                                    <th class="px-5 py-3">Subtotal</th>
+                                    <th class="px-5 py-3">Keterangan</th>
+                                    <th class="px-5 py-3 text-right">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-[#F5EDE0]">
+                                <tr
+                                    v-for="item in dataFiltered"
+                                    :key="item.id"
+                                    class="hover:bg-[#FBF8F2]"
                                 >
-                                    {{
-                                        item.harga_beli
-                                            ? formatRupiah(
-                                                  item.jumlah_dibeli *
-                                                      item.harga_beli
-                                              )
-                                            : "-"
-                                    }}
-                                </td>
-                                <td class="px-5 py-3 text-gray-500">
-                                    {{ item.keterangan || "-" }}
-                                </td>
-                                <td class="px-5 py-3 text-right">
-                                    <button
-                                        @click="openEditModal(item)"
-                                        class="mr-3 text-sm font-medium hover:underline"
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{ formatTanggal(item.tanggal_masuk) }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-medium text-gray-800"
+                                    >
+                                        {{ item.nama_barang }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-500 whitespace-nowrap"
+                                    >
+                                        {{ item.jumlah_dibeli }} kuantitas,
+                                        berat
+                                        {{ parseFloat(item.berat_per_satuan) }}
+                                        {{ item.satuan }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-gray-600 whitespace-nowrap"
+                                    >
+                                        {{
+                                            item.harga_beli
+                                                ? formatRupiah(item.harga_beli)
+                                                : "-"
+                                        }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 font-semibold whitespace-nowrap"
                                         style="color: #a31d22"
                                     >
-                                        Edit
-                                    </button>
-                                    <button
-                                        @click="confirmDelete(item)"
-                                        class="text-sm font-medium text-red-500 hover:text-red-700"
+                                        {{
+                                            item.harga_beli
+                                                ? formatRupiah(
+                                                      item.jumlah_dibeli *
+                                                          item.harga_beli
+                                                  )
+                                                : "-"
+                                        }}
+                                    </td>
+                                    <td class="px-5 py-3 text-gray-500">
+                                        {{ item.keterangan || "-" }}
+                                    </td>
+                                    <td
+                                        class="px-5 py-3 text-right whitespace-nowrap"
                                     >
-                                        Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                            <tr v-if="dataFiltered.length === 0">
-                                <td
-                                    :colspan="7"
-                                    class="px-5 py-10 text-center text-sm text-gray-400"
-                                >
-                                    Belum ada data.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                        <button
+                                            @click="openEditModal(item)"
+                                            class="mr-3 text-sm font-medium hover:underline"
+                                            style="color: #a31d22"
+                                        >
+                                            Edit
+                                        </button>
+                                        <button
+                                            @click="confirmDelete(item)"
+                                            class="text-sm font-medium text-red-500 hover:text-red-700"
+                                        >
+                                            Hapus
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr v-if="dataFiltered.length === 0">
+                                    <td
+                                        :colspan="7"
+                                        class="px-5 py-10 text-center text-sm text-gray-400"
+                                    >
+                                        Belum ada data.
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
@@ -418,7 +525,7 @@ function executeDelete() {
             @click.self="closeModal"
         >
             <div
-                class="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto"
+                class="w-full max-w-md rounded-2xl bg-white p-5 sm:p-6 shadow-xl max-h-[90vh] overflow-y-auto"
             >
                 <h3 class="mb-4 text-lg font-semibold text-gray-800">
                     {{
@@ -647,7 +754,9 @@ function executeDelete() {
                     </div>
 
                     <!-- Tombol -->
-                    <div class="flex justify-end gap-2 pt-2">
+                    <div
+                        class="flex flex-col-reverse gap-2 pt-2 sm:flex-row sm:justify-end"
+                    >
                         <button
                             type="button"
                             @click="closeModal"
@@ -674,7 +783,9 @@ function executeDelete() {
             class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 px-4"
             @click.self="showDeleteConfirm = false"
         >
-            <div class="w-full max-w-sm rounded-2xl bg-white p-6 shadow-xl">
+            <div
+                class="w-full max-w-sm rounded-2xl bg-white p-5 sm:p-6 shadow-xl"
+            >
                 <h3 class="text-lg font-semibold text-gray-800">
                     Hapus Barang Produksi?
                 </h3>
@@ -684,7 +795,9 @@ function executeDelete() {
                     }}</span
                     >" akan dihapus permanen.
                 </p>
-                <div class="mt-5 flex justify-end gap-2">
+                <div
+                    class="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end"
+                >
                     <button
                         @click="showDeleteConfirm = false"
                         class="rounded-xl px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-100"
