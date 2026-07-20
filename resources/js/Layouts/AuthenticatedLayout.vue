@@ -58,7 +58,7 @@ function logout() {
                     "
                 >
                     <img
-                        src="/Image/Logo.png"
+                        src="/image/Logo.png"
                         alt="Susu Jahe Merah 191"
                         class="w-9 h-9 rounded-full object-cover"
                     />

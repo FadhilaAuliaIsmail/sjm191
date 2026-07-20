@@ -90,7 +90,7 @@ import Toast from "@/Components/Toast.vue";
                     class="rounded-full bg-white p-1.5 shadow-lg ring-4 ring-white/40"
                 >
                     <img
-                        src="/Image/Logo.png"
+                        src="/image/Logo.png"
                         alt="Susu Jahe Merah 191"
                         class="h-20 w-20 rounded-full object-cover"
                     />
